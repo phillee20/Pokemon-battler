@@ -1,5 +1,8 @@
-const Pokemon = require("../../pokemon")
-const fireType = require("../../pokemon")
+const {Pokemon,
+    fireType,
+    waterType,
+    grassType} = require("../../pokemon")
+
 
 describe("Pokemon", () => {
     describe("Properties", () => {
@@ -109,13 +112,32 @@ describe("Pokemon", () => {
             expect(squirtle.hasFainted()).toBe(true);
         });
         test("class fireType constructs a pokemon object that has to be a fire type", () => {
-                //arrange
-                const charmander = new fireType("charmander", 23, 20, "tackle", "fire")
-                //act
-                console.log(charmander)
-                //assert
-                expect(charmander).toEqual({name: "charmander", hitPoints: 23, attackDamage: 20, move: "tackle", type: "fire"})
-        })
+            //arrange
+            const charmander = new fireType("charmander", 23, 6);
+            //const infernape = new fireType("infernape", 213, 52);
+            //act
+            
+            //assert
+            expect(charmander).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"})
+            // expect(infernape).toEqual({name: "infernape",hitPoints: 213,attackDamage: 52, move: "ember", type: "fire"})
+        });
 
+        test("class waterType constructs a pokemon object that has to be a water type", () => {
+            //arrange
+            const squirtle = new waterType("squirtle", 20, 7)
+            //act
+        
+            //assert
+            expect(squirtle).toEqual({name: "squirtle", hitPoints: 20, attackDamage: 7, move: "bubble", type: "water"})
+        }); 
+
+        test("class grassType constructs a pokemon object that has to be a grass type", () => {
+            //arrange
+            const squirtle = new grassType("bulbasaur", 25, 5);
+            //act
+        
+            //assert
+            expect(squirtle).toEqual({name: "bulbasaur", hitPoints: 25, attackDamage: 5, move: "vine whip", type: "grass"})
+        }); 
     });
 });
