@@ -46,6 +46,41 @@ describe("Pokemon", () => {
             
             //assert
             expect(testPokemon).toEqual({name: "squirtle", type: "water", hitPoints: 20, attackDamage: 7, move: "tackle"})
-        })
-    })
-})
+        });
+    });
+
+    describe("methods", () => {
+        
+        test("returns a boolean if the pokemon type is effective against the given pokemon argument", () => {
+            //arrange
+            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
+            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            //act
+
+            //assert
+            expect(squirtle.isEffectiveAgainst(charmander)).toBe(true);
+            expect(charmander.isEffectiveAgainst(squirtle)).toBe(false);
+        });
+
+        test("returns a boolean if the pokemon type is weak to the given pokemon argument", () => {
+            //arrange
+            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
+            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            //act
+
+            //assert
+            expect(squirtle.isWeakTo(charmander)).toBe(false);
+            expect(charmander.isWeakTo(squirtle)).toBe(true);
+        });
+
+        test("take a number and reduce the pokemons hit points by that number", () => {
+            //arrange
+            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
+            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            //act
+            squirtle.takeDamage(charmander);
+            //assert
+            expect(squirtle.hitPoints).toBe(14);
+        });
+    });
+});
