@@ -7,20 +7,18 @@ class Pokemon {
         this.move = move;
     };
 
-    isEffectiveAgainst(opponent) {
-        if (this.type === "water" && opponent.type === "fire") {
-            return true;
-        } else if (this.type === "fire" && opponent.type === "water") {
-            return false;
+    isEffectiveAgainst(opponent) {                       
+        if (this.type === "water") {
+            return opponent.type === "fire"
+        } else if (this.type === "grass") {
+            return opponent.type === "water"
+        } else if (this.type === "fire") {
+            return opponent.type === "grass"
         };
-    };
+    };                              
 
     isWeakTo(opponent) {
-        if (this.type === "water" && opponent.type === "fire") {
-            return false;
-        } else if (this.type === "fire" && opponent.type === "water") {
-            return true;
-        };
+        return this.type === "fire" && opponent.type === "water";
     };
 
     takeDamage(opponent) {
@@ -38,12 +36,24 @@ class Pokemon {
 };
 
 class fireType extends Pokemon {
-    constructor(name, hitPoints, attackDamage, move, type) {
-        super(name, hitPoints, attackDamage, "tackle", "fire")
-        //this.type = "fire"
-    }
-}
+    constructor(name, hitPoints, attackDamage) {
+        super(name, hitPoints, attackDamage, "ember", "fire");
+    };
+};
 
+class waterType extends Pokemon {
+    constructor(name, hitPoints, attackDamage) {
+        super(name, hitPoints, attackDamage, "bubble", "water");
+    };
+};
 
+class grassType extends Pokemon {
+    constructor(name, hitPoints, attackDamage) {
+        super(name, hitPoints, attackDamage, "vine whip", "grass");
+    };
+};
 
-module.exports = Pokemon, fireType;
+module.exports = {Pokemon,
+    fireType,
+    waterType,
+    grassType};
