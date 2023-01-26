@@ -1,4 +1,5 @@
 const Pokemon = require("../../pokemon")
+const fireType = require("../../pokemon")
 
 describe("Pokemon", () => {
     describe("Properties", () => {
@@ -11,41 +12,42 @@ describe("Pokemon", () => {
             //assert
             expect(testPokemon).toEqual({name: "squirtle"})
         })
-        test("Given a type argument, returns an object containing the type", () => {
-            //arrange
-            const testPokemon = new Pokemon("squirtle", "water")
-
-            //act
-            
-            //assert
-            expect(testPokemon).toEqual({name: "squirtle", type: "water"})
-        })
+        
         test("Given a hit points argument, returns an object containing the hit points", () => {
             //arrange
-            const testPokemon = new Pokemon("squirtle", "water", 20)
+            const testPokemon = new Pokemon("squirtle", 20)
 
             //act
             
             //assert
-            expect(testPokemon).toEqual({name: "squirtle", type: "water", hitPoints: 20})
+            expect(testPokemon).toEqual({name: "squirtle", hitPoints: 20})
         })
         test("Given a attack damage argument, returns an object containing the attack damage", () => {
             //arrange
-            const testPokemon = new Pokemon("squirtle", "water", 20, 7)
+            const testPokemon = new Pokemon("squirtle", 20, 7)
 
             //act
             
             //assert
-            expect(testPokemon).toEqual({name: "squirtle", type: "water", hitPoints: 20, attackDamage: 7})
+            expect(testPokemon).toEqual({name: "squirtle", hitPoints: 20, attackDamage: 7})
         })
-        test("Given a moveargument, returns an object containing move", () => {
+        test("Given a move argument, returns an object containing move", () => {
             //arrange
-            const testPokemon = new Pokemon("squirtle", "water", 20, 7, "tackle")
+            const testPokemon = new Pokemon("squirtle", 20, 7, "tackle")
 
             //act
             
             //assert
-            expect(testPokemon).toEqual({name: "squirtle", type: "water", hitPoints: 20, attackDamage: 7, move: "tackle"})
+            expect(testPokemon).toEqual({name: "squirtle", hitPoints: 20, attackDamage: 7, move: "tackle"})
+        });
+        test("Given a type argument, then return a object containing a type", () => {
+            //arrange
+            const testPokemon = new Pokemon("squirtle", 20, 7, "tackle", "water")
+
+            //act
+            
+            //assert
+            expect(testPokemon).toEqual({name: "squirtle", hitPoints: 20, attackDamage: 7, move: "tackle", type: "water"})
         });
     });
 
@@ -53,8 +55,8 @@ describe("Pokemon", () => {
         
         test("returns a boolean if the pokemon type is effective against the given pokemon argument", () => {
             //arrange
-            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
-            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            const squirtle = new Pokemon("squirtle", 20, 7, "tackle", "water");
+            const charmander = new Pokemon("charmander", 23, 6, "tackle", "fire");
             //act
 
             //assert
@@ -64,8 +66,8 @@ describe("Pokemon", () => {
 
         test("returns a boolean if the pokemon type is weak to the given pokemon argument", () => {
             //arrange
-            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
-            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            const squirtle = new Pokemon("squirtle", 20, 7, "tackle", "water");
+            const charmander = new Pokemon("charmander", 23, 6, "tackle", "fire");
             //act
 
             //assert
@@ -75,12 +77,45 @@ describe("Pokemon", () => {
 
         test("take a number and reduce the pokemons hit points by that number", () => {
             //arrange
-            const squirtle = new Pokemon("squirtle", "water", 20, 7, "tackle");
-            const charmander = new Pokemon("charmander", "fire", 23, 6, "tackle");
+            const squirtle = new Pokemon("squirtle", 20, 7, "tackle", "water");
+            const charmander = new Pokemon("charmander", 23, 6, "tackle", "fire");
             //act
             squirtle.takeDamage(charmander);
             //assert
             expect(squirtle.hitPoints).toBe(14);
         });
+        test("takes a pokemon argument and returns the amount of damage its attack does and the string indicating the move that was used", () => {
+            //arrange
+            const squirtle = new Pokemon("squirtle", 20, 7, "tackle", "water");
+            
+            //act
+            
+            //assert
+            expect(squirtle.useMove()).toBe(squirtle.attackDamage);
+        });
+        test("when a pokemons health is reduced to below 0, then return a boolean to show that they have fainted", () => {
+            //arrange
+            const squirtle = new Pokemon("squirtle", 20, 7, "tackle", "water");
+            const charmander = new Pokemon("charmander", 23, 20, "tackle", "fire")
+
+            //assert
+            expect(squirtle.hasFainted()).toBe(false);
+
+            //act
+            charmander.useMove();
+            squirtle.takeDamage(charmander);
+
+            //assert
+            expect(squirtle.hasFainted()).toBe(true);
+        });
+        test("class fireType constructs a pokemon object that has to be a fire type", () => {
+                //arrange
+                const charmander = new fireType("charmander", 23, 20, "tackle", "fire")
+                //act
+                console.log(charmander)
+                //assert
+                expect(charmander).toEqual({name: "charmander", hitPoints: 23, attackDamage: 20, move: "tackle", type: "fire"})
+        })
+
     });
 });

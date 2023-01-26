@@ -1,5 +1,5 @@
 class Pokemon {
-    constructor(name, type, hitPoints, attackDamage, move){
+    constructor(name, hitPoints, attackDamage, move, type){
         this.name = name;
         this.type = type;
         this.hitPoints = hitPoints;
@@ -26,8 +26,24 @@ class Pokemon {
     takeDamage(opponent) {
         this.hitPoints = this.hitPoints - opponent.attackDamage;
     };
+
+    useMove() {
+        console.log(`${this.name} used ${this.move}`)
+        return this.attackDamage;
+    }
+
+    hasFainted() {
+      return this.hitPoints <= 0
+    }
 };
 
+class fireType extends Pokemon {
+    constructor(name, hitPoints, attackDamage, move, type) {
+        super(name, hitPoints, attackDamage, "tackle", "fire")
+        //this.type = "fire"
+    }
+}
 
 
-module.exports = Pokemon;
+
+module.exports = Pokemon, fireType;
