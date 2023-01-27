@@ -8,17 +8,29 @@ class Pokemon {
     };
 
     isEffectiveAgainst(opponent) {                       
-        if (this.type === "water") {
+        if(this.type === "water") {
             return opponent.type === "fire"
         } else if (this.type === "grass") {
             return opponent.type === "water"
         } else if (this.type === "fire") {
             return opponent.type === "grass"
-        };
+        } else {
+            return false
+        }
+        
+
     };                              
 
     isWeakTo(opponent) {
-        return this.type === "fire" && opponent.type === "water";
+        if(this.type === "water") {
+            return opponent.type === "grass"
+        } else if (this.type === "grass") {
+            return opponent.type === "fire"
+        } else if (this.type === "fire") {
+            return opponent.type === "water"
+        } else {
+            return false
+        }
     };
 
     takeDamage(opponent) {
@@ -53,7 +65,15 @@ class grassType extends Pokemon {
     };
 };
 
+class normalType extends Pokemon {
+    constructor(name, hitPoints, attackDamage) {
+        super(name, hitPoints, attackDamage, "tackle", "normal");
+    };
+};
+
+
 module.exports = {Pokemon,
     fireType,
     waterType,
-    grassType};
+    grassType,
+    normalType};

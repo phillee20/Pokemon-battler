@@ -1,10 +1,12 @@
 const {Pokemon,
     fireType,
     waterType,
-    grassType} = require("../../pokemon")
+    grassType,
+    normalType} = require("../../pokemon")
 
 
 describe("Pokemon", () => {
+
     describe("Properties", () => {
         test("Given pokemon name argument, returns a object containing a name property", () => {
             //arrange
@@ -54,7 +56,7 @@ describe("Pokemon", () => {
         });
     });
 
-    describe("methods", () => {
+    describe("Methods", () => {
         
         test("returns a boolean if the pokemon type is effective against the given pokemon argument", () => {
             //arrange
@@ -133,11 +135,47 @@ describe("Pokemon", () => {
 
         test("class grassType constructs a pokemon object that has to be a grass type", () => {
             //arrange
-            const squirtle = new grassType("bulbasaur", 25, 5);
+            const bulbasaur = new grassType("bulbasaur", 25, 5);
             //act
         
             //assert
-            expect(squirtle).toEqual({name: "bulbasaur", hitPoints: 25, attackDamage: 5, move: "vine whip", type: "grass"})
+            expect(bulbasaur).toEqual({name: "bulbasaur", hitPoints: 25, attackDamage: 5, move: "vine whip", type: "grass"})
         }); 
+        test("Given a pokemon with type grass, water, fire or normal is effective against will return the appropriate boolean", () => {
+            //arrange
+            const charmander = new fireType("charmander", 23, 6);
+            const squirtle = new waterType("squirtle", 20, 7)
+            const bulbasaur = new grassType("bulbasaur", 25, 5);
+            const ratatta = new normalType("ratatta", 25, 4);
+
+            //act
+
+            //assert
+            expect(charmander.isEffectiveAgainst(squirtle)).toBe(false)
+            expect(bulbasaur.isEffectiveAgainst(squirtle)).toBe(true)
+            expect(ratatta.isEffectiveAgainst(bulbasaur)).toBe(false)
+            expect(squirtle.isEffectiveAgainst(charmander)).toBe(true)
+            expect(ratatta.isEffectiveAgainst(charmander)).toBe(false)
+            expect(charmander.isEffectiveAgainst(bulbasaur)).toBe(true)
+        })
+        test("Given a pokemon with type grass, water, fire or normal is weak to will return the appropriate boolean", () => {
+            //arrange
+            const charmander = new fireType("charmander", 23, 6);
+            const squirtle = new waterType("squirtle", 20, 7)
+            const bulbasaur = new grassType("bulbasaur", 25, 5);
+            const ratatta = new normalType("ratatta", 25, 4);
+
+            //act
+
+            //assert
+            expect(charmander.isWeakTo(squirtle)).toBe(true)
+            expect(bulbasaur.isWeakTo(squirtle)).toBe(false)
+            expect(ratatta.isWeakTo(bulbasaur)).toBe(false)
+            expect(squirtle.isWeakTo(charmander)).toBe(false)
+            expect(ratatta.isWeakTo(charmander)).toBe(false)
+            expect(charmander.isWeakTo(bulbasaur)).toBe(false)
+            expect(bulbasaur.isWeakTo(charmander)).toBe(true)
+            expect(squirtle.isWeakTo(bulbasaur)).toBe(true)
+        })
     });
 });
