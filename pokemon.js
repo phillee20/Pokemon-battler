@@ -72,13 +72,14 @@ class NormalType extends Pokemon {
 class Pokeball {
     constructor(isFull = false) {
         this.isFull = isFull;
+        this.pokemon = {};
     };
 
     throw(opponent) {
         if (opponent === undefined && this.isFull === false) {
             console.log("you throw your pokeball at nothing. you catch nothing.")
         } else if (opponent === undefined && this.isFull === true) {
-            console.log(`Go ${this.pokemon}!!!`);
+            console.log(`Go ${this.pokemon.name}!!!`);
             return this.pokemon;
         } else if (opponent !== undefined && this.isFull === false) {
             console.log(`you caught ${opponent.name}`);
@@ -96,30 +97,44 @@ class Pokeball {
     contains(){
         if(this.isEmpty()) {
             return "empty"
-    } else {
-        return `pokeball contains ${this.pokemon.name}`
-    }}
+        } else {
+           return `pokeball contains ${this.pokemon.name}`
+        };
+    };
 };
 
 class Trainer {
-     constructor(){
+     constructor() {
         this.belt = [] 
-            for(let i = 0; i < 6; i++){
+            for(let i = 0; i < 6; i++) {
                 this.belt.push(new Pokeball)
-            }
-     }
+            };
+     };
 
-catch(opponent){
-    for(let i = 0; i < 6; i++){
-        if(this.belt[i].isEmpty()){
-            this.belt[i].throw(opponent)
-            this.belt[i].contains()
-    return
-        }
-    }
-}
+    catch(opponent){
+        if (this.belt[5].contains() !== "empty") {
+            console.log("ran out of pokeballs");
+        } else {
+        
+            for(let i = 0; i < 6; i++) {
+                if(this.belt[i].isEmpty()) {
+                    this.belt[i].throw(opponent)
+                    this.belt[i].contains()
+                return;
+                };
+            };
+        };
+    };
 
-
+    getPokemon(name) {
+        for(let i = 0; i < 6; i++) {
+            if (!this.belt[i].isEmpty()) {
+                if (this.belt[i].pokemon.name === name) {
+                return this.belt[i].throw();
+                };
+            };
+        };
+    };
 };
 
 module.exports = {Pokemon,

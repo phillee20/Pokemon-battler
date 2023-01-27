@@ -213,7 +213,6 @@ describe("Pokemon", () => {
             //assert
             expect(pokeball.isFull).toBe(true);
             expect(pokeball.pokemon).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
-
         });
 
         test("if the throw method is carried out on a full pokeball, the pokemon inside is released", () => {
@@ -224,12 +223,13 @@ describe("Pokemon", () => {
             pokeball.throw();
             //assert
             expect(pokeball.isFull).toBe(false);
-            expect(pokeball.hasOwnProperty("pokemon")).toBe(false);
-            //act
+            expect(pokeball.pokemon).toEqual({});
+            // //act
             pokeball.throw(charmander);
             //assert
-            expect(pokeball.throw()).toBe(pokeball.pokemon);
+            expect(pokeball.throw()).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
         });
+
         test("hould return a Boolean representing whether or not a Pokemon is stored inside it", () => {
             //arrange
             const pokeball = new Pokeball();
@@ -244,7 +244,8 @@ describe("Pokemon", () => {
 
             //assert
             expect(pokeball.isEmpty()).toBe(false)
-        })
+        });
+
         test("should return the name of the Pokemon that is stored. If the Pokeball is empty, it should return empty ...", () => {
             //arrange
             const pokeball = new Pokeball();
@@ -261,30 +262,59 @@ describe("Pokemon", () => {
             //assert
             expect(pokeball.contains()).toBe(`pokeball contains ${pokeball.pokemon.name}`)
         });
+
         test("A Trainer should have a belt property that should have 6 Pokeballs", () => {
             //arrange
-             const Ash = new Trainer
-
+            const Ash = new Trainer
             //act
             console.log(Ash)
             //assert
             expect(Ash.belt.length).toBe(6)
             expect(Ash.belt[3]).toEqual(new Pokeball)
-        })
-        test("Should catch the opponent pokemon with the first available empty pokeball", () => {
-            //arrange
-             const Ash = new Trainer
-             const charmander = new FireType("charmander", 23, 6);
+        });
 
+        test("Should catch the opponent pokemon with the first available empty pokeball, as long as the belt is not full", () => {
+            //arrange
+            const Ash = new Trainer
+            const charmander = new FireType("charmander", 23, 6);
             //act
             Ash.catch(charmander)
             console.log(Ash)
-
             //assert
             expect(Ash.belt[0].contains()).toBe("pokeball contains charmander")
             expect(Ash.belt[1].contains()).toBe("empty")
-        })
+            //arrange
+            const squirtle = new WaterType("squirtle", 20, 7);
+            const bulbasaur = new GrassType("bulbasaur", 25, 5);
+            const ratatta = new NormalType("ratatta", 25, 4);
+            const squirtle2 = new WaterType("squirtle1", 22, 6);
+            const bulbasaur2 = new GrassType("bulbasaur2", 25, 7);
+            const ratatta2 = new NormalType("ratatta2", 21, 5);
+            //act
+            Ash.catch(squirtle);
+            Ash.catch(bulbasaur);
+            Ash.catch(ratatta);
+            Ash.catch(squirtle2);
+            Ash.catch(bulbasaur2);
+            console.log(Ash);
+            //assert
+            expect(Ash.belt[5].contains()).toBe("pokeball contains bulbasaur2");
+        });
 
+        test.only("should take the name of a pokemon & search for that pokemon in the belt", () => {
+            //arrange
+            const Ash = new Trainer;
+            const charmander = new FireType("charmander", 23, 6);
+            //act
 
-    })
+            //assert
+            // expect(Ash.getPokemon()).toEqual
+            
+            
+            //act
+            Ash.catch(charmander);
+            //assert
+            expect(Ash.getPokemon("charmander")).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
+        });
+    });
 });
