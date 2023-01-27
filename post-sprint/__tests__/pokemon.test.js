@@ -301,20 +301,23 @@ describe("Pokemon", () => {
             expect(Ash.belt[5].contains()).toBe("pokeball contains bulbasaur2");
         });
 
-        test.only("should take the name of a pokemon & search for that pokemon in the belt", () => {
+        test("should take the name of a pokemon & search for that pokemon in the belt", () => {
             //arrange
             const Ash = new Trainer;
             const charmander = new FireType("charmander", 23, 6);
-            //act
-
-            //assert
-            // expect(Ash.getPokemon()).toEqual
-            
-            
+            const squirtle = new WaterType("squirtle", 20, 7);
+            const bulbasaur = new GrassType("bulbasaur", 25, 5);
+            const ratatta = new NormalType("ratatta", 25, 4);
+      
             //act
             Ash.catch(charmander);
+            Ash.catch(squirtle);
+            Ash.catch(bulbasaur);
+            Ash.catch(ratatta);
+
             //assert
             expect(Ash.getPokemon("charmander")).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
+            expect(Ash.getPokemon("bulbasaur")).toEqual({name: "bulbasaur", hitPoints: 25, attackDamage: 5, move: "vine whip", type: "grass"})
         });
     });
 });
