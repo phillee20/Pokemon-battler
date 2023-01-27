@@ -1,8 +1,9 @@
 const {Pokemon,
-    fireType,
-    waterType,
-    grassType,
-    normalType} = require("../../pokemon")
+    FireType,
+    WaterType,
+    GrassType,
+    NormalType,
+    Pokeball} = require("../../pokemon")
 
 
 describe("Pokemon", () => {
@@ -115,7 +116,7 @@ describe("Pokemon", () => {
         });
         test("class fireType constructs a pokemon object that has to be a fire type", () => {
             //arrange
-            const charmander = new fireType("charmander", 23, 6);
+            const charmander = new FireType("charmander", 23, 6);
             //const infernape = new fireType("infernape", 213, 52);
             //act
             
@@ -126,7 +127,7 @@ describe("Pokemon", () => {
 
         test("class waterType constructs a pokemon object that has to be a water type", () => {
             //arrange
-            const squirtle = new waterType("squirtle", 20, 7)
+            const squirtle = new WaterType("squirtle", 20, 7)
             //act
         
             //assert
@@ -135,19 +136,28 @@ describe("Pokemon", () => {
 
         test("class grassType constructs a pokemon object that has to be a grass type", () => {
             //arrange
-            const bulbasaur = new grassType("bulbasaur", 25, 5);
+            const bulbasaur = new GrassType("bulbasaur", 25, 5);
             //act
         
             //assert
             expect(bulbasaur).toEqual({name: "bulbasaur", hitPoints: 25, attackDamage: 5, move: "vine whip", type: "grass"})
         }); 
+
+        test("class normalType constructs a pokemon object that has to be a normal type", () => {
+            //arrange
+            const ratatta = new NormalType("ratatta", 25, 4);
+            //act
+        
+            //assert
+            expect(ratatta).toEqual({name: "ratatta", hitPoints: 25, attackDamage: 4, move: "tackle", type: "normal"});
+        }); 
+
         test("Given a pokemon with type grass, water, fire or normal is effective against will return the appropriate boolean", () => {
             //arrange
-            const charmander = new fireType("charmander", 23, 6);
-            const squirtle = new waterType("squirtle", 20, 7)
-            const bulbasaur = new grassType("bulbasaur", 25, 5);
-            const ratatta = new normalType("ratatta", 25, 4);
-
+            const charmander = new FireType("charmander", 23, 6);
+            const squirtle = new WaterType("squirtle", 20, 7)
+            const bulbasaur = new GrassType("bulbasaur", 25, 5);
+            const ratatta = new NormalType("ratatta", 25, 4);
             //act
 
             //assert
@@ -157,14 +167,14 @@ describe("Pokemon", () => {
             expect(squirtle.isEffectiveAgainst(charmander)).toBe(true)
             expect(ratatta.isEffectiveAgainst(charmander)).toBe(false)
             expect(charmander.isEffectiveAgainst(bulbasaur)).toBe(true)
-        })
+        });
+        
         test("Given a pokemon with type grass, water, fire or normal is weak to will return the appropriate boolean", () => {
             //arrange
-            const charmander = new fireType("charmander", 23, 6);
-            const squirtle = new waterType("squirtle", 20, 7)
-            const bulbasaur = new grassType("bulbasaur", 25, 5);
-            const ratatta = new normalType("ratatta", 25, 4);
-
+            const charmander = new FireType("charmander", 23, 6);
+            const squirtle = new WaterType("squirtle", 20, 7);
+            const bulbasaur = new GrassType("bulbasaur", 25, 5);
+            const ratatta = new NormalType("ratatta", 25, 4);
             //act
 
             //assert
@@ -176,6 +186,48 @@ describe("Pokemon", () => {
             expect(charmander.isWeakTo(bulbasaur)).toBe(false)
             expect(bulbasaur.isWeakTo(charmander)).toBe(true)
             expect(squirtle.isWeakTo(bulbasaur)).toBe(true)
-        })
+        });
+
+        test("check if a pokeball is empty, returning a boolean", () => {
+            // arrange
+            const pokeball = new Pokeball();
+            // act
+
+            // assert
+            expect(pokeball.isFull).toBe(false);
+        });
+
+        test("has a throw method that will store the argument of throw in the object pokeball", () => {
+            //arrange
+            const pokeball = new Pokeball();
+            const charmander = new FireType("charmander", 23, 6);
+            const squirtle = new WaterType("squirtle", 20, 7)
+            //act
+            pokeball.throw(charmander);
+            //assert
+            expect(pokeball.isFull).toBe(true);
+            expect(pokeball.pokemon).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
+            //act
+            pokeball.throw(squirtle);
+            //assert
+            expect(pokeball.isFull).toBe(true);
+            expect(pokeball.pokemon).toEqual({name: "charmander", hitPoints: 23, attackDamage: 6, move: "ember", type: "fire"});
+
+        });
+
+        test.only("if the throw method is carried out on a full pokeball, the pokemon inside is released", () => {
+            //arrange
+            const pokeball = new Pokeball();
+            const charmander = new FireType("charmander", 23, 6);
+            //act
+            pokeball.throw();
+            //assert
+            expect(pokeball.isFull).toBe(false);
+            expect(pokeball.hasOwnProperty("pokemon")).toBe(false);
+            //act
+            pokeball.throw(charmander);
+            //assert
+            expect(pokeball.throw()).toBe(pokeball.pokemon);
+        });
     });
 });

@@ -47,33 +47,54 @@ class Pokemon {
     }
 };
 
-class fireType extends Pokemon {
+class FireType extends Pokemon {
     constructor(name, hitPoints, attackDamage) {
         super(name, hitPoints, attackDamage, "ember", "fire");
     };
 };
 
-class waterType extends Pokemon {
+class WaterType extends Pokemon {
     constructor(name, hitPoints, attackDamage) {
         super(name, hitPoints, attackDamage, "bubble", "water");
     };
 };
 
-class grassType extends Pokemon {
+class GrassType extends Pokemon {
     constructor(name, hitPoints, attackDamage) {
         super(name, hitPoints, attackDamage, "vine whip", "grass");
     };
 };
 
-class normalType extends Pokemon {
+class NormalType extends Pokemon {
     constructor(name, hitPoints, attackDamage) {
         super(name, hitPoints, attackDamage, "tackle", "normal");
     };
 };
 
+class Pokeball {
+    constructor(isFull = false) {
+        this.isFull = isFull;
+    };
+
+    throw(opponent) {
+        if (opponent === undefined && this.isFull === false) {
+            console.log("you throw your pokeball at nothing. you catch nothing.")
+        } else if (opponent === undefined && this.isFull === true) {
+            console.log(`Go ${this.pokemon}!!!`);
+            return this.pokemon;
+        } else if (opponent !== undefined && this.isFull === false) {
+            console.log(`you caught ${opponent.name}`);
+            this.isFull = true;
+            this.pokemon = opponent;
+        } else if (opponent !== undefined && this.isFull === true) {
+            console.log(`that pokeball is full! you can't catch another pokemon with it`);
+        };
+    };
+};
 
 module.exports = {Pokemon,
-    fireType,
-    waterType,
-    grassType,
-    normalType};
+    FireType,
+    WaterType,
+    GrassType,
+    NormalType,
+    Pokeball};
