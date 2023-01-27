@@ -3,7 +3,8 @@ const {Pokemon,
     WaterType,
     GrassType,
     NormalType,
-    Pokeball} = require("../../pokemon")
+    Pokeball,
+    Trainer} = require("../../pokemon")
 
 
 describe("Pokemon", () => {
@@ -215,7 +216,7 @@ describe("Pokemon", () => {
 
         });
 
-        test.only("if the throw method is carried out on a full pokeball, the pokemon inside is released", () => {
+        test("if the throw method is carried out on a full pokeball, the pokemon inside is released", () => {
             //arrange
             const pokeball = new Pokeball();
             const charmander = new FireType("charmander", 23, 6);
@@ -229,5 +230,61 @@ describe("Pokemon", () => {
             //assert
             expect(pokeball.throw()).toBe(pokeball.pokemon);
         });
-    });
+        test("hould return a Boolean representing whether or not a Pokemon is stored inside it", () => {
+            //arrange
+            const pokeball = new Pokeball();
+            const charmander = new FireType("charmander", 23, 6);
+
+            //act
+
+            //assert
+            expect(pokeball.isEmpty()).toBe(true)
+            //act
+            pokeball.throw(charmander)
+
+            //assert
+            expect(pokeball.isEmpty()).toBe(false)
+        })
+        test("should return the name of the Pokemon that is stored. If the Pokeball is empty, it should return empty ...", () => {
+            //arrange
+            const pokeball = new Pokeball();
+            const charmander = new FireType("charmander", 23, 6);
+
+            //act
+
+            //assert
+            expect(pokeball.contains()).toBe("empty")
+            
+            //act
+            pokeball.throw(charmander)
+
+            //assert
+            expect(pokeball.contains()).toBe(`pokeball contains ${pokeball.pokemon.name}`)
+        });
+        test("A Trainer should have a belt property that should have 6 Pokeballs", () => {
+            //arrange
+             const Ash = new Trainer
+
+            //act
+            console.log(Ash)
+            //assert
+            expect(Ash.belt.length).toBe(6)
+            expect(Ash.belt[3]).toEqual(new Pokeball)
+        })
+        test("Should catch the opponent pokemon with the first available empty pokeball", () => {
+            //arrange
+             const Ash = new Trainer
+             const charmander = new FireType("charmander", 23, 6);
+
+            //act
+            Ash.catch(charmander)
+            console.log(Ash)
+
+            //assert
+            expect(Ash.belt[0].contains()).toBe("pokeball contains charmander")
+            expect(Ash.belt[1].contains()).toBe("empty")
+        })
+
+
+    })
 });

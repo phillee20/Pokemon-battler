@@ -17,8 +17,6 @@ class Pokemon {
         } else {
             return false
         }
-        
-
     };                              
 
     isWeakTo(opponent) {
@@ -90,6 +88,38 @@ class Pokeball {
             console.log(`that pokeball is full! you can't catch another pokemon with it`);
         };
     };
+
+    isEmpty(){
+        return !this.isFull
+    }
+    
+    contains(){
+        if(this.isEmpty()) {
+            return "empty"
+    } else {
+        return `pokeball contains ${this.pokemon.name}`
+    }}
+};
+
+class Trainer {
+     constructor(){
+        this.belt = [] 
+            for(let i = 0; i < 6; i++){
+                this.belt.push(new Pokeball)
+            }
+     }
+
+catch(opponent){
+    for(let i = 0; i < 6; i++){
+        if(this.belt[i].isEmpty()){
+            this.belt[i].throw(opponent)
+            this.belt[i].contains()
+    return
+        }
+    }
+}
+
+
 };
 
 module.exports = {Pokemon,
@@ -97,4 +127,5 @@ module.exports = {Pokemon,
     WaterType,
     GrassType,
     NormalType,
-    Pokeball};
+    Pokeball,
+    Trainer};
